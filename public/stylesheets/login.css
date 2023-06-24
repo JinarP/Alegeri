@@ -1,0 +1,74 @@
+html,body {
+  font-size: 14px;
+  font-weight: 300;
+  font-family: Poppins;
+  -ms-text-size-adjust: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale
+}
+
+body {
+  background: #343a400a;
+  margin-bottom: 189px
+}
+
+.card {
+  margin-bottom: 30px;
+  border: 1;
+  border-radius: 1;
+  -webkit-box-shadow: 0 0px 25px 10px rgba(113,106,202,.08);
+  -moz-box-shadow: 0 1px 25px 10px rgba(113,106,202,.08);
+  box-shadow: 0 1px 15px 15px rgba(113,106,202,.08);
+  word-wrap: normal
+}
+
+.card .card-header {
+  background-color: #fff;
+  padding: 20px 30px;
+  border-bottom: 1px solid #ebedf2
+}
+
+.card .card-header .card-title {
+  font-size: 16px;
+  font-weight: 400;
+  margin: 0
+}
+
+.card .card-body {
+  background-color: #fff;
+  padding: 25px 30px;
+  color: #575962
+}
+
+.card .card-footer {
+  background-color: #fff;
+  padding: 15px 30px;
+  border-top: 1px solid #ebedf2;
+  color: #575962
+}
+
+.login-form {
+  max-width: 410px;
+  margin: 50px auto
+}
+
+.login-form .card-header .card-title {
+  text-align: center
+}
+
+.login-form .form-actions {
+  text-align: center;
+  margin-top: 30px
+}
+
+.login-form .with-line {
+  text-align: center;
+  border-bottom: 1px solid rgba(0,0,0,.15);
+  line-height: 6px;
+  margin: 30px 0
+}
+
+form input:not([type=checkbox],[type=radio],[type=textarea]) {
+  height: 36px;
+  line-height: 36px!important
+}
