@@ -1,0 +1,36 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    link(href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css", rel="stylesheet", integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM", crossorigin="anonymous")
+    link(rel="stylesheet", href="/public/stylesheets/login.css")
+    title LOGIN
+  body
+    .card.login-form
+      .card-header
+        h4.card-title Salut, loghează-te aici!
+      .card-body
+        .form-group.text-center
+          h2 WELLCOME
+        .form-group.text-center
+          .center-align
+            .google-align-right
+              h4 USER
+          h3.with-line
+            span sau
+        form#login(action="/login", method="POST")
+          .form-group
+            label Username
+            input.form-control(name="username", required="", type="text")
+          .form-group
+            label Parolă
+            input.form-control(name="password", required="", type="password")
+          .form-actions
+            div
+              button.g-recaptcha.btn.btn-success(data-action="submit", id="login-button")
+                | Log in
+      .card-footer
+        p.float-right
+          | Nu ești înregistrat? Înregistrează-te
+          a(href="/register") aici

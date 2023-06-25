@@ -4,14 +4,18 @@ const client = require("./routes/dbconection");
 let path = require("path");
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(__dirname));
-
+app.set('view engine', 'jade');
 
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '/views/login.html'))
+  res.render('login')
 });
 
 app.get('/register', async (req, res) => {
-  res.sendFile(path.join(__dirname, '/views/register.html'));
+  res.render('register');
+});
+
+app.get('/profile', async (req, res) => {
+  res.render('profile');
 });
 
 app.post('/finishregister', async (req, res) => {
@@ -23,7 +27,7 @@ app.post('/finishregister', async (req, res) => {
     if (document.rowCount === 0) {
       if (passw === repetpsw) {
         client.query('INSERT INTO users (usname, parola) VALUES ($1, $2)', [username, passw]);
-        res.sendFile(path.join(__dirname, '/views/startpage.html'))
+        res.render('startpage')
       } else {
         res.send("Parolă greșita");
       }
@@ -44,7 +48,7 @@ app.post('/login', async (req, res) => {
     const users = await client.query('SELECT usname FROM users WHERE usname = $1', [username]);
     const validpsw = await client.query('SELECT parola FROM users WHERE usname = $1', [username]);
     if ((users.rows.length > 0 && username === users.rows[0].usname) && (psw === validpsw.rows[0].parola)) {
-      res.sendFile(path.join(__dirname, '/views/startpage.html'))
+      res.render('startpage')
     } else {
       res.send("Username sau parolă greșite");
     }
@@ -72,7 +76,7 @@ app.post('/addDescription', async (req, res) => {
 });
 
 app.post('/newcandidat', async (req, res) => {
-  client.query('INSERT INTO candidati (nume) VALUES ($1)', [username]);
+  client.query('INSERT INTO candidati (nume, voturi) VALUES ($1, $2)', [username, 0]);
 });
 
 app.get('/seeuser', async (req, res) => {
@@ -87,14 +91,23 @@ app.get('/seeuser', async (req, res) => {
   }
 });
 
+app.get ('/vot', async (req, res) => {
+  const { user } = req.query;
+  const result = await client.query('SELECT voturi FROM candidati WHERE nume = ($1)', [user]);
+  const vot_number = result.rows[0].voturi;
+  const newVotNumber = vot_number + 1;
+  await client.query('UPDATE candidati SET voturi = $1 WHERE nume = $2', [newVotNumber, user]);
+  res.send('Votul a fost înregistrat cu succes!');
+});
+
 app.get('/list', async (req, res) => {
   try {
-    const document = await client.query("SELECT nume FROM candidati");
+    const document = await client.query("SELECT nume FROM candidati ORDER BY voturi DESC ");
     let variable = "";
     document.rows.forEach(row => {
       variable += `${row.nume}
         <button onclick="window.location.href='/seeuser?user=${row.nume}'">VIEW DESCRIPTION</button>
-        <button>VOT</button>
+        <button onclick="window.location.href='/vot?user=${row.nume}'">VOT</button>
         <br>`;
     });
     res.send(variable);
@@ -102,6 +115,7 @@ app.get('/list', async (req, res) => {
     console.log(error);
   }
 });
+
 
 
 module.exports = app;
