@@ -1,0 +1,21 @@
+body {
+    background-color: rgb(224, 174, 55);
+}
+
+#mess {
+    display: flex;
+    justify-content: center;
+    position: relative;
+    top: 25px;
+    background-color: antiquewhite;
+}
+
+#buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    gap: 20px;
+    height: 100vh;
+  }
+  

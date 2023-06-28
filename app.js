@@ -15,7 +15,13 @@ app.get('/register', async (req, res) => {
 });
 
 app.get('/profile', async (req, res) => {
-  res.render('profile');
+  try {
+    const response = await client.query(`SELECT descriere FROM users WHERE usname = $1`, [username])
+    const description = response.rows[0]; 
+    res.render('profile', {description});
+  } catch (error) {
+    res.status(404).send("Some server errors");
+  }
 });
 
 app.post('/finishregister', async (req, res) => {
@@ -56,19 +62,6 @@ app.post('/login', async (req, res) => {
     console.log(error);
   }
 });
-
-
-
-app.get('/getDescription', async (req, res) => {
-  try {
-    const response = await client.query(`SELECT descriere FROM users WHERE usname = $1`, [username])
-    const description = response.rows[0]; 
-    res.status(200).send(description);
-  } catch (error) {
-    res.status(404).send("Some server errors");
-  }
-});
-
 
 app.post('/addDescription', async (req, res) => {
   const description = req.body.dsc;
@@ -115,7 +108,5 @@ app.get('/list', async (req, res) => {
     console.log(error);
   }
 });
-
-
 
 module.exports = app;
