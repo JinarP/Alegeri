@@ -14,19 +14,27 @@ app.get('/register', async (req, res) => {
   res.render('register');
 });
 
-app.get('/profile', async (req, res) => {
+let username;
+app.post('/login', async (req, res) => {
   try {
-    const response = await client.query(`SELECT descriere FROM users WHERE usname = $1`, [username])
-    const description = response.rows[0]; 
-    res.render('profile', {description});
+    username = req.body.username;
+    const psw = req.body.password;
+    const users = await client.query('SELECT usname FROM users WHERE usname = $1', [username]);
+    const validpsw = await client.query('SELECT parola FROM users WHERE usname = $1', [username]);
+    if ((users.rows.length > 0 && username === users.rows[0].usname) && (psw === validpsw.rows[0].parola)) {
+      res.render('startpage')
+    } else {
+      res.send("Username sau parolă greșite");
+    }
   } catch (error) {
-    res.status(404).send("Some server errors");
+    console.log(error);
   }
 });
 
-app.post('/finishregister', async (req, res) => {
+
+app.post('/register', async (req, res) => {
   try {
-    const username = req.body.usname;
+    username = req.body.usname;
     const passw = req.body.password;
     const repetpsw = req.body.repetpw;
     const document = await client.query('SELECT usname FROM users WHERE usname = $1', [username]);
@@ -46,33 +54,26 @@ app.post('/finishregister', async (req, res) => {
   }
 });
 
-let username;
-app.post('/login', async (req, res) => {
+app.get('/profile/viewProfile', async (req, res) => {
   try {
-    username = req.body.username;
-    const psw = req.body.password;
-    const users = await client.query('SELECT usname FROM users WHERE usname = $1', [username]);
-    const validpsw = await client.query('SELECT parola FROM users WHERE usname = $1', [username]);
-    if ((users.rows.length > 0 && username === users.rows[0].usname) && (psw === validpsw.rows[0].parola)) {
-      res.render('startpage')
-    } else {
-      res.send("Username sau parolă greșite");
-    }
+    const response = await client.query(`SELECT descriere FROM users WHERE usname = $1`, [username])
+    const description = response.rows[0];
+    res.render('profile', {description});
   } catch (error) {
-    console.log(error);
+    res.status(404).send("Some server errors");
   }
 });
 
-app.post('/addDescription', async (req, res) => {
+app.post('/profile/addDescription', async (req, res) => {
   const description = req.body.dsc;
   client.query('UPDATE users SET descriere = $1 WHERE usname = $2', [description, username]);
 });
 
-app.post('/newcandidat', async (req, res) => {
+app.post('/profile/newCandidat', async (req, res) => {
   client.query('INSERT INTO candidati (nume, voturi) VALUES ($1, $2)', [username, 0]);
 });
 
-app.get('/seeuser', async (req, res) => {
+app.get('/list/seeuser', async (req, res) => {
   const { user } = req.query;
   try {
     const response = await client.query(`SELECT descriere FROM users WHERE usname = $1`, [user])
@@ -84,7 +85,7 @@ app.get('/seeuser', async (req, res) => {
   }
 });
 
-app.get ('/vot', async (req, res) => {
+app.get ('/list/vot', async (req, res) => {
   const { user } = req.query;
   const result = await client.query('SELECT voturi FROM candidati WHERE nume = ($1)', [user]);
   const vot_number = result.rows[0].voturi;
@@ -93,13 +94,13 @@ app.get ('/vot', async (req, res) => {
   res.send('Votul a fost înregistrat cu succes!');
 });
 
-app.get('/list', async (req, res) => {
+app.get('/startpage/list', async (req, res) => {
   try {
     const document = await client.query("SELECT nume FROM candidati ORDER BY voturi DESC ");
     let variable = "";
     document.rows.forEach(row => {
       variable += `${row.nume}
-        <button onclick="window.location.href='/seeuser?user=${row.nume}'">VIEW DESCRIPTION</button>
+        <button onclick="window.location.href='/list/seeuser?user=${row.nume}'">VIEW DESCRIPTION</button>
         <button onclick="window.location.href='/vot?user=${row.nume}'">VOT</button>
         <br>`;
     });
