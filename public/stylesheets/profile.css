@@ -16,9 +16,10 @@
     padding: 20px;
 }
 
-#close-btn {
+#close {
     float: right;
     cursor: pointer;
+    align-items: flex-end;
 }
 
 #message-box {

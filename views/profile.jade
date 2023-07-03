@@ -10,17 +10,17 @@ html(lang="en")
     form(action="/profile/newcandidat", method="post")
       button(type="submit", class="btn btn-primary") CANDIDEAZA
       
-    button#show-popup.btn.btn-warning(onclick="openInput()") Adaugă descriere
+button#show-popup.btn.btn-warning(onclick="openInput()") Adaugă descriere
 
-    form(action="/profile/addDescription", method="post")
-      #overlay
-        #popup
-          input(name="dsc", type="text", id="description-input")
-          button#add-btn(type="submit", onclick="addDescription()") Add
-          button(onclick="back()") Back
+#overlay(style="display: none")
+  #popup
+   form(action="/profile/addDescription", method = "post") 
+     textarea(cols="30", rows="10" name="dsc", type="text", id="description-input")
+     button.btn.btn-success(type="submit", onclick="addDescription()") Add
+    button#close.btn.btn-danger(onclick="back()") Back 
 
-    .card
-      h2(style="text-align:center") DESCRIPTION
-      textarea #{description.descriere}
+.card
+    h2(style="text-align:center") DESCRIPTION
+    p #{description.descriere}
 
   script(src="/public/javascripts/profile.js")

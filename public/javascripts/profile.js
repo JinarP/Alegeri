@@ -5,11 +5,9 @@ function openInput() {
 };
 
 function addDescription() {
-    if (description !== '') {
-        overlay.style.display = 'none';
-    }
+    overlay.style="display: none"
 }
 
 function back() {
-    window.location.reload;
+  overlay.style="display: none"
 }

@@ -19,9 +19,9 @@ app.post('/login', async (req, res) => {
   try {
     username = req.body.username;
     const psw = req.body.password;
-    const users = await client.query('SELECT usname FROM users WHERE usname = $1', [username]);
-    const validpsw = await client.query('SELECT parola FROM users WHERE usname = $1', [username]);
-    if ((users.rows.length > 0 && username === users.rows[0].usname) && (psw === validpsw.rows[0].parola)) {
+    const users = await client.query('SELECT usname, parola FROM users WHERE usname = $1', [username]);
+    const validpsw = users.rows[0].parola;
+    if ((users.rows.length > 0 && username === users.rows[0].usname) && (psw === validpsw)) {
       res.render('startpage')
     } else {
       res.send("Username sau parolă greșite");
@@ -30,7 +30,6 @@ app.post('/login', async (req, res) => {
     console.log(error);
   }
 });
-
 
 app.post('/register', async (req, res) => {
   try {
@@ -57,7 +56,7 @@ app.post('/register', async (req, res) => {
 app.get('/profile/viewProfile', async (req, res) => {
   try {
     const response = await client.query(`SELECT descriere FROM users WHERE usname = $1`, [username])
-    const description = response.rows[0];
+    const description = response.rows[0] || {descriere:"nu exista o descriere"};
     res.render('profile', {description});
   } catch (error) {
     res.status(404).send("Some server errors");
@@ -65,8 +64,10 @@ app.get('/profile/viewProfile', async (req, res) => {
 });
 
 app.post('/profile/addDescription', async (req, res) => {
-  const description = req.body.dsc;
-  client.query('UPDATE users SET descriere = $1 WHERE usname = $2', [description, username]);
+  const newDescrition = req.body.dsc;
+  client.query('UPDATE users SET descriere = $1 WHERE usname = $2 RETURNING *', [newDescrition, username]);
+  const description = {descriere:newDescrition}; 
+  res.render('profile', {description});
 });
 
 app.post('/profile/newCandidat', async (req, res) => {
