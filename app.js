@@ -117,17 +117,12 @@ app.get('/list/votes', async (req, res) => {
   }
 });
 
-app.get('/startpage/list', async (req, res) => {
+app.get('/list/candidates', async (req, res) => {
   try {
     const document = await client.query("SELECT name FROM candidates ORDER BY votes DESC ");
-    let variable = "";
-    document.rows.forEach(row => {
-      variable += `${row.name}
-        <button onclick="window.location.href='/list/seeCandidate?user=${row.name}'">VIEW DESCRIPTION</button>
-        <button onclick="window.location.href='/vot?user=${row.name}'">VOTE</button>
-        <br>`;
-    });
-    res.send(variable);
+    const variable = document.rows;
+    console.log(variable);
+    res.render('candidateList', {variable});
   } catch (error) {
     console.log(error);
     res.status(404).send("Some server errors");
