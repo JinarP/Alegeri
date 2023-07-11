@@ -109,7 +109,7 @@ app.get('/list/votes', async (req, res) => {
     const result = await client.query('SELECT votes FROM candidates WHERE name = ($1)', [user]);
     const vot_number = result.rows[0].votes;
     const newVotNumber = vot_number + 1;
-    await client.query('UPDATE candidates SET votes = $1 WHERE nume = $2', [newVotNumber, user]);
+    await client.query('UPDATE candidates SET votes = $1 WHERE name = $2', [newVotNumber, user]);
     res.send('The vote was registered successfully!');
   } catch (error) {
     console.log(error);
@@ -121,7 +121,6 @@ app.get('/list/candidates', async (req, res) => {
   try {
     const document = await client.query("SELECT name FROM candidates ORDER BY votes DESC ");
     const variable = document.rows;
-    console.log(variable);
     res.render('candidateList', {variable});
   } catch (error) {
     console.log(error);
