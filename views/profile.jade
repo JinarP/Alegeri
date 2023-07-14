@@ -8,9 +8,11 @@ html(lang="en")
     title MY PROFILE
   body
     form(action="/profile/newCandidate", method="post")
-      button(type="submit", class="btn btn-primary") APPLY FOR PRESIDENT
+      button(type="submit", class = "btn btn-primary") APPLY FOR PRESIDENT
       
-button#show-popup.btn.btn-warning(onclick="openInput()") ADD DESCRIPTION
+button#show-popup.btn.btn-warning(onclick = "openInput()") ADD DESCRIPTION
+br
+button.btn.btn-danger(onclick = "window.history.back()") BACK
 
 #overlay(style="display: none")
   #popup
@@ -18,9 +20,11 @@ button#show-popup.btn.btn-warning(onclick="openInput()") ADD DESCRIPTION
      textarea(cols="30", rows="10" name="dsc", type="text", id="description-input")
      button.btn.btn-success(type="submit", onclick="addDescription()") Add
     button#close.btn.btn-danger(onclick="back()") Back 
-
-.card
-    h2(style="text-align:center") DESCRIPTION
-    p #{description.description}
+    
+    
+div.card
+   h2(style="text-align:center") DESCRIPTION
+   div.card-body
+     p #{description.description}
 
   script(src="/public/javascripts/profile.js")
