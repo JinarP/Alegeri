@@ -24,7 +24,8 @@ app.post('/login', async (req, res) => {
     if ((users.rows.length > 0 && username === users.rows[0].usname) && (psw === validpsw.rows[0].password)) {
       res.render('startpage')
     } else {
-      res.send("Wrong username or password");
+      const message = "Wrong username or password"
+      res.render('template', {message: message});
     }
   } catch (error) {
     console.log(error);
@@ -42,10 +43,12 @@ app.post('/register', async (req, res) => {
         client.query('INSERT INTO users (usname, password) VALUES ($1, $2)', [username, passw]);
         res.render('startpage')
       } else {
-        res.send("Wrong passwod");
+        const message = "Wrong passwod";
+        res.render('template', {message: message});
       }
     } else {
-      res.send("Username already exist");
+      const message = "Username already exist";
+      res.render('template', {message: message});
     }
 
   } catch (error) {
@@ -80,9 +83,11 @@ app.post('/profile/newCandidate', async (req, res) => {
     const document = await client.query('SELECT name FROM candidates WHERE name = $1', [username]);
     if (document.rowCount === 0) {
     client.query('INSERT INTO candidates (name, votes) VALUES ($1, $2)', [username, 0]);
-    res.send ("You are now on candidates list, congratulations")
+    const message = "You are now on candidates list, congratulations";
+    res.render('template', {message: message});
     } else {
-      res.send ("You are already on the list of candidates")
+      const message = "You are already on the list of candidates";
+      res.render('template', {message: message});
     }
   } catch (error) {
     console.log(error)
@@ -96,21 +101,21 @@ app.get('/list/seeCandidate', async (req, res) => {
   try {
     const response = await client.query(`SELECT description FROM users WHERE usname = $1`, [user])
     const description = response.rows[0].description || "Description do not exist";
-
-    res.status(200).send(description);
+    res.render('template', {message: description});
   } catch (error) {
     res.status(404).send("Some server errors");
   }
 });
 
-app.get('/list/votes', async (req, res) => {
+app.get('/candidates/votes', async (req, res) => {
   try {
     const { user } = req.query;
     const result = await client.query('SELECT votes FROM candidates WHERE name = ($1)', [user]);
     const vot_number = result.rows[0].votes;
     const newVotNumber = vot_number + 1;
     await client.query('UPDATE candidates SET votes = $1 WHERE name = $2', [newVotNumber, user]);
-    res.send('The vote was registered successfully!');
+    const message = 'The vote was registered successfully!';
+    res.render('template', {message: message});
   } catch (error) {
     console.log(error);
     res.status(404).send("Some server errors");
