@@ -1,5 +1,5 @@
 body {
-    background-color: rgb(224, 174, 55);
+    background-color: rgba(191, 209, 212, 0.405);
 }
 
 #mess {
@@ -7,7 +7,7 @@ body {
     justify-content: center;
     position: relative;
     top: 25px;
-    background-color: antiquewhite;
+    background-color:rgba(191, 209, 212, 0.405);
 }
 
 #buttons {

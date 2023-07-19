@@ -12,4 +12,4 @@ html(lang="en")
     p #{index + 1}. #{user.name} 
      button.btn.btn-primary(onclick=`window.location.href="/list/seeCandidate?user=${user.name}"`) VIEW DESCRIPTION  
      button.btn.btn-success(onclick=`window.location.href="/candidates/votes?user=${user.name}"`) VOTES
-  button.btn.btn-danger(onclick = "window.history.back()") BACK
+  button.btn.btn-danger(onclick = "window.history.back()" style="position:relative; left: 25px") BACK
