@@ -1,0 +1,36 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    script(src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js", integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r", crossorigin="anonymous")
+    script(src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js", integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa", crossorigin="anonymous")
+    link(href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css", rel="stylesheet", integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9", crossorigin="anonymous")
+    script(src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js", integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm", crossorigin="anonymous")
+    title MY PROFILE
+  body
+    button.btn.btn-info(type='button', data-bs-toggle='modal', data-bs-target='#staticBackdrop')
+      | ADD DESCRIPTION
+   form(action="/profile/addDescription", method = "post") 
+    div.modal.fade(id='staticBackdrop', data-bs-backdrop='static', data-bs-keyboard='false', tabindex='-1', aria-labelledby='staticBackdropLabel', aria-hidden='true')
+      div.modal-dialog
+        div.modal-content
+          div.modal-header
+            h1.modal-title.fs-5(id='staticBackdropLabel')
+              | DESCRIPTION
+            button.btn-close(data-bs-dismiss='modal', aria-label='Close')
+          div.modal-body
+            textarea#myInput(type='text', name="dsc" placeholder='Type you description...', cols='60', rows='3')
+          div.modal-footer
+            button.btn.btn-secondary(type='button', data-bs-dismiss='modal')
+              | Close
+            button.btn.btn-success(type="submit", onclick="addDescription()")
+              | ADD
+
+    script.
+      const myModal = document.getElementById('staticBackdrop');
+      const myInput = document.getElementById('myInput');
+
+      myModal.addEventListener('shown.bs.modal', () => {
+        myInput.focus();
+      })

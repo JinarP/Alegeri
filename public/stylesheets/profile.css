@@ -23,21 +23,14 @@
     left: 55%;
 }
 
-#addbuttons {
-    display: flex;
-    justify-content: space-around;
-    align-items: self-end;
-}
-
 #popup {
-    background-color: #fff;
+    background-color: hsl(0deg 3.66% 90.19%);
     padding: 1px;
 }
 
 #close {
-    float: right;
-    cursor: pointer;
-    align-items: flex-end;
+  position:relative;
+  top: 1px;
 }
 
 #message-box {

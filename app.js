@@ -10,6 +10,10 @@ app.get('/', (req, res) => {
   res.render('login')
 });
 
+app.get('/startpage', (req, res) => {
+   res.render('startpage');
+});
+
 app.get('/register', async (req, res) => {
   res.render('register');
 });

@@ -7,7 +7,7 @@
     max-width: 35em;
     height: 350px;
     position: fixed;
-    top: 240px;
+    top: 35%;
     left: 50%;
     transform: translate(-50%, -50%);
 }

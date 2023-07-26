@@ -11,11 +11,9 @@ body {
 }
 
 #buttons {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    align-content: center;
-    gap: 20px;
-    height: 100vh;
-  }
+    position:relative;
+    top: 240px;
+    left:40%;
+ }
+    
   
