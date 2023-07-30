@@ -29,7 +29,7 @@ app.post('/login', async (req, res) => {
       res.render('startpage')
     } else {
       const message = "Wrong username or password"
-      res.render('template', {message: message});
+      res.render('wrongmessage', {message: message});
     }
   } catch (error) {
     console.log(error);
@@ -48,11 +48,11 @@ app.post('/register', async (req, res) => {
         res.render('startpage')
       } else {
         const message = "Wrong passwod";
-        res.render('template', {message: message});
+        res.render('wrongmessage', {message: message});
       }
     } else {
       const message = "Username already exist";
-      res.render('template', {message: message});
+      res.render('wrongmessage', {message: message});
     }
 
   } catch (error) {
@@ -67,6 +67,7 @@ app.get('/profile/viewProfile', async (req, res) => {
     res.render('profile', { description });
   } catch (error) {
     res.status(404).send("Some server errors");
+    console.log(error);
   }
 });
 
