@@ -13,6 +13,6 @@ html(lang="en")
      h3#candidates
       each user, index in variable
        p #{index + 1}. #{user.name} 
-        button.btn.btn-primary(onclick=`window.location.href="/list/seeCandidate?user=${user.name}"`) VIEW DESCRIPTION  
-        button.btn.btn-success(onclick=`window.location.href="/candidates/votes?user=${user.name}"`) VOTES
+        button.btn.btn-primary(onclick=`window.location.href="/list/seeCandidate?user=${user.name}"` style= "margin-left:15px") VIEW DESCRIPTION  
+        button.btn.btn-success(onclick=`window.location.href="/candidates/votes?user=${user.name}"` style= "margin-left:15px") VOTES
     button.btn.btn-danger(onclick = "window.history.back()") BACK
